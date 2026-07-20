@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Wellbeing Assessment</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Animated background orbs -->
+    <div class="bg-shape shape-purple"></div>
+    <div class="bg-shape shape-blue"></div>
+
+    <div class="form-container">
+        <div class="form-card">
+            
+            <div class="form-header">
+                <h1>🧠 <span class="text-gradient">Wellbeing Assessment</span></h1>
+                <p class="subtitle">Enter your information below to receive an AI-powered personalized insight into your digital habits.</p>
+            </div>
+
+            <form action="{{ url_for('predict') }}" method="POST">
+
+                <!-- Section 1: Personal Info -->
+                <div class="form-section">
+                    <h2>👤 Personal Information</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label>Age</label>
+                            <input type="number" name="age" min="1" max="120" placeholder="e.g. 25" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Gender</label>
+                            <select name="gender" required>
+                                <option value="" disabled selected>Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Non-binary">Non-binary</option>
+                                <option value="Prefer not to say">Prefer not to say</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Occupation</label>
+                            <select name="occupation" required>
+                                <option value="" disabled selected>Select Occupation</option>
+                                <option value="Student">Student</option>
+                                <option value="Full-time employed">Full-time employed</option>
+                                <option value="Part-time employed">Part-time employed</option>
+                                <option value="Self-employed">Self-employed</option>
+                                <option value="Unemployed">Unemployed</option>
+                                <option value="Retired">Retired</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Region</label>
+                            <select name="region" required>
+                                <option value="" disabled selected>Select Region</option>
+                                <option value="Asia">Asia</option>
+                                <option value="Africa">Africa</option>
+                                <option value="Europe">Europe</option>
+                                <option value="North America">North America</option>
+                                <option value="Latin America">Latin America</option>
+                                <option value="Oceania">Oceania</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Digital Habits -->
+                <div class="form-section">
+                    <h2>📱 Digital Habits</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label>Most Used Platform</label>
+                            <select name="most_used_platform" required>
+                                <option value="" disabled selected>Select Platform</option>
+                                <option value="TikTok">TikTok</option>
+                                <option value="Instagram">Instagram</option>
+                                <option value="YouTube">YouTube</option>
+                                <option value="LinkedIn">LinkedIn</option>
+                                <option value="X/Twitter">X/Twitter</option>
+                                <option value="Facebook">Facebook</option>
+                                <option value="Snapchat">Snapchat</option>
+                                <option value="Reddit">Reddit</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Number of Platforms Used</label>
+                            <input type="number" name="platforms_used_count" min="0" placeholder="e.g. 3" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Daily Screen Time (hours)</label>
+                            <input type="number" step="0.1" name="daily_screen_hours" min="0" placeholder="e.g. 4.5" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Daily Notifications</label>
+                            <input type="number" name="daily_notifications" min="0" placeholder="e.g. 50" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Night-time Social Media Use</label>
+                            <select name="night_time_use" required>
+                                <option value="" disabled selected>Select Frequency</option>
+                                <option value="Never">Never</option>
+                                <option value="Sometimes">Sometimes</option>
+                                <option value="Often">Often</option>
+                                <option value="Every night">Every night</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Mins to First Check (After Waking)</label>
+                            <input type="number" name="minutes_to_first_check_after_waking" min="0" placeholder="e.g. 15" required>
+                        </div>
+
+                        <div class="input-group full-width">
+                            <label>Primary Purpose of Social Media</label>
+                            <select name="primary_purpose" required>
+                                <option value="" disabled selected>Select Purpose</option>
+                                <option value="Entertainment">Entertainment</option>
+                                <option value="News/information">News/information</option>
+                                <option value="Work/career">Work/career</option>
+                                <option value="Connection with friends">Connection with friends</option>
+                                <option value="Passing time/boredom">Passing time/boredom</option>
+                                <option value="Content creation">Content creation</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Mental Wellbeing Factors -->
+                <div class="form-section">
+                    <h2>💤 Mental Wellbeing Factors</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label>Average Sleep (Hours)</label>
+                            <input type="number" step="0.1" name="avg_sleep_hours" min="0" max="24" placeholder="e.g. 7" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Anxiety Score (0-27)</label>
+                            <input type="number" name="anxiety_score_0to27" min="0" max="27" placeholder="0-27" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Low Mood Score (0-27)</label>
+                            <input type="number" name="low_mood_score_0to27" min="0" max="27" placeholder="0-27" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Life Satisfaction (1-10)</label>
+                            <input type="number" name="life_satisfaction_1to10" min="1" max="10" placeholder="1-10" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Loneliness (1-10)</label>
+                            <input type="number" name="loneliness_1to10" min="1" max="10" placeholder="1-10" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Self Esteem (1-10)</label>
+                            <input type="number" name="self_esteem_1to10" min="1" max="10" placeholder="1-10" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>FOMO (1-10)</label>
+                            <input type="number" name="fomo_1to10" min="1" max="10" placeholder="1-10" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Social Comparison (1-10)</label>
+                            <input type="number" name="social_comparison_1to10" min="1" max="10" placeholder="1-10" required>
+                        </div>
+
+                        <div class="input-group full-width">
+                            <label>Physical Activity (Days/Week)</label>
+                            <input type="number" name="physical_activity_days_per_week" min="0" max="7" placeholder="0-7" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Digital Wellbeing Habits -->
+                <div class="form-section">
+                    <h2>🌱 Digital Wellbeing Habits</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label>Use Screen Time Limits?</label>
+                            <select name="uses_screen_time_limits" required>
+                                <option value="" disabled selected>Select...</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Attempted Digital Detox?</label>
+                            <select name="attempted_digital_detox" required>
+                                <option value="" disabled selected>Select...</option>
+                                <option value="No">No</option>
+                                <option value="Yes, failed">Yes, failed</option>
+                                <option value="Yes, succeeded">Yes, succeeded</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group full-width">
+                            <label>Do You Seek Mental Health Support?</label>
+                            <select name="seeks_mental_health_support" required>
+                                <option value="" disabled selected>Select...</option>
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                                <option value="Considering it">Considering it</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="predict-button">
+                    <span>🔍 Assess My Wellbeing</span>
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

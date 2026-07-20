@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellbeing Result</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Animated background orbs -->
+    <div class="bg-shape shape-purple"></div>
+    <div class="bg-shape shape-blue"></div>
+
+    <div class="result-container">
+        <div class="result-card">
+            
+            <div class="form-header">
+                <h1>🧠 <span class="text-gradient">Your Assessment</span></h1>
+                <p class="subtitle">Here are the AI-powered insights based on your digital habits.</p>
+            </div>
+
+            <!-- Dashboard Grid for Results -->
+            <div class="dashboard-grid">
+                
+                <!-- Prediction Box -->
+                <div class="metric-box">
+                    <h2>Predicted Wellbeing Band</h2>
+                    <div class="metric-value text-gradient">
+                        {{ prediction }}
+                    </div>
+                </div>
+
+                <!-- Risk Box -->
+                <div class="metric-box">
+                    <h2>Mental Wellbeing Risk</h2>
+                    <div class="metric-value text-danger">
+                        {{ "%.2f"|format(risk_percentage) }}%
+                    </div>
+                    <p class="metric-desc">
+                        Probability of being classified as <strong>At-risk</strong> by the model.
+                    </p>
+                </div>
+
+                <!-- Consultation Box -->
+                <div class="metric-box full-width">
+                    <h2>Consultation Recommendation</h2>
+                    <h3 class="consultation-level">
+                        {{ consultation_level }}
+                    </h3>
+                    <p class="metric-desc">
+                        {{ consultation_message }}
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="disclaimer">
+                <span class="disclaimer-icon">⚠️</span>
+                <p>This assessment is an AI-based prediction and is <strong>not a medical diagnosis</strong>. Please consult a healthcare professional for actual medical advice.</p>
+            </div>
+
+            <div class="action-buttons">
+                <a href="{{ url_for('wellbeing') }}" class="main-button">
+                    Take Another Assessment
+                </a>
+                
+                <a href="{{ url_for('index') }}" class="secondary-button">
+                    Back to Home
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
