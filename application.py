@@ -111,7 +111,7 @@ with app.app_context():
 # =========================================
 
 with open(
-    "models/model.pkl",
+    "models/new_model.pkl",
     "rb"
 ) as file:
 
