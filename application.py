@@ -141,6 +141,74 @@ def index():
         "index.html"
     )
 
+@app.route(
+    "/login",
+    methods=["GET", "POST"]
+)
+def login():
+
+    if request.method == "POST":
+
+        email = request.form.get(
+            "email"
+        )
+
+        password = request.form.get(
+            "password"
+        )
+
+
+        # Find user
+
+        user = User.query.filter_by(
+            email=email
+        ).first()
+
+
+        # Check credentials
+
+        if user and check_password_hash(
+
+            user.password,
+
+            password
+
+        ):
+
+
+            # Create login session
+
+            login_user(
+                user
+            )
+
+
+            flash(
+                "Login successful.",
+                "success"
+            )
+
+
+            return redirect(
+                url_for("wellbeing")
+            )
+
+
+        flash(
+            "Invalid email or password.",
+            "error"
+        )
+
+
+        return redirect(
+            url_for("login")
+        )
+
+
+    return render_template(
+        "login.html"
+    )
+
 
 # =========================================
 # SIGNUP
