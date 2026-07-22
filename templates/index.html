@@ -1,49 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>MindWell AI</title>
-    
-    <!-- Google Fonts for modern typography -->
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Link to your CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
 </head>
+
 <body>
 
     <!-- Animated background orbs -->
+
     <div class="bg-shape shape-purple"></div>
+
     <div class="bg-shape shape-blue"></div>
 
+
     <div class="welcome-container">
+
         <div class="welcome-card">
-            
+
+
+            <!-- Brain Icon -->
+
             <div class="icon-wrapper">
+
                 <div class="glow"></div>
-                <div class="brain-icon">🧠</div>
+
+                <div class="brain-icon">
+                    🧠
+                </div>
+
             </div>
 
-            <h1>Welcome to <span class="text-gradient">MindWell AI</span></h1>
-            
+
+            <!-- Heading -->
+
+            <h1>
+
+                Welcome to
+
+                <span class="text-gradient">
+                    MindWell AI
+                </span>
+
+            </h1>
+
+
+            <!-- Description -->
+
             <p>
-                Understand your digital habits and explore your mental wellbeing through AI-powered insights.
+
+                Understand your digital habits and explore your
+                mental wellbeing through AI-powered insights.
+
             </p>
 
-            <a href="{{ url_for('wellbeing') }}" class="main-button">
+
+            <!-- Explore Button -->
+
+            <!--
+                IMPORTANT:
+
+                This route first logs out any previous session
+                and then opens the login page.
+
+                After successful login:
+                login -> wellbeing page
+            -->
+
+            <a
+                href="{{ url_for('start_wellbeing') }}"
+                class="main-button"
+            >
+
                 Explore Mental Wellbeing
-                <!-- Small arrow icon -->
-                <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
+
+
+                <!-- Arrow Icon -->
+
+                <svg
+                    class="arrow-icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+
+                    <line
+                        x1="5"
+                        y1="12"
+                        x2="19"
+                        y2="12"
+                    ></line>
+
+                    <polyline
+                        points="12 5 19 12 12 19"
+                    ></polyline>
+
                 </svg>
+
             </a>
 
         </div>
+
     </div>
 
 </body>
+
 </html>

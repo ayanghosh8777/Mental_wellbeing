@@ -18,7 +18,8 @@ from flask_login import (
     login_user,
     login_required,
     logout_user,
-    current_user
+    current_user,
+    logout_user
 )
 
 from werkzeug.security import (
@@ -141,74 +142,6 @@ def index():
         "index.html"
     )
 
-@app.route(
-    "/login",
-    methods=["GET", "POST"]
-)
-def login():
-
-    if request.method == "POST":
-
-        email = request.form.get(
-            "email"
-        )
-
-        password = request.form.get(
-            "password"
-        )
-
-
-        # Find user
-
-        user = User.query.filter_by(
-            email=email
-        ).first()
-
-
-        # Check credentials
-
-        if user and check_password_hash(
-
-            user.password,
-
-            password
-
-        ):
-
-
-            # Create login session
-
-            login_user(
-                user
-            )
-
-
-            flash(
-                "Login successful.",
-                "success"
-            )
-
-
-            return redirect(
-                url_for("wellbeing")
-            )
-
-
-        flash(
-            "Invalid email or password.",
-            "error"
-        )
-
-
-        return redirect(
-            url_for("login")
-        )
-
-
-    return render_template(
-        "login.html"
-    )
-
 
 # =========================================
 # SIGNUP
@@ -241,6 +174,7 @@ def signup():
             email=email
         ).first()
 
+
         if existing_email:
 
             flash(
@@ -258,6 +192,7 @@ def signup():
         existing_username = User.query.filter_by(
             username=username
         ).first()
+
 
         if existing_username:
 
@@ -278,7 +213,7 @@ def signup():
         )
 
 
-        # Create user
+        # Create new user
 
         new_user = User(
 
@@ -300,14 +235,28 @@ def signup():
         db.session.commit()
 
 
+        # =========================================
+        # IMPORTANT:
+        # AUTOMATICALLY LOGIN NEW USER
+        # =========================================
+
+        login_user(
+            new_user
+        )
+
+
         flash(
-            "Account created successfully. Please login.",
+            "Account created successfully.",
             "success"
         )
 
 
+        # =========================================
+        # NEW USER DIRECTLY OPENS PREDICTION PAGE
+        # =========================================
+
         return redirect(
-            url_for("login")
+            url_for("wellbeing")
         )
 
 
@@ -355,7 +304,7 @@ def login():
         ):
 
 
-            # Create login session
+            # Login user
 
             login_user(
                 user
@@ -367,6 +316,8 @@ def login():
                 "success"
             )
 
+
+            # After login open prediction page
 
             return redirect(
                 url_for("wellbeing")
@@ -386,6 +337,40 @@ def login():
 
     return render_template(
         "login.html"
+    )
+
+
+# =========================================
+# IMPORTANT NEW ROUTE
+# =========================================
+#
+# Every time the user clicks
+# "Explore Mental Wellbeing"
+# from the main page:
+#
+# 1. Existing login session is removed
+# 2. Login page opens
+#
+# =========================================
+
+@app.route(
+    "/start-wellbeing"
+)
+def start_wellbeing():
+
+
+    # If a user is already logged in,
+    # log them out first
+
+    if current_user.is_authenticated:
+
+        logout_user()
+
+
+    # Always open login page
+
+    return redirect(
+        url_for("login")
     )
 
 
@@ -414,7 +399,7 @@ def logout():
 
 
 # =========================================
-# MENTAL WELLBEING PAGE
+# MENTAL WELLBEING / PREDICTION PAGE
 # =========================================
 
 @app.route(
@@ -450,11 +435,13 @@ def predict():
             request.form["age"]
         )
 
+
         platforms_used_count = int(
             request.form[
                 "platforms_used_count"
             ]
         )
+
 
         daily_screen_hours = float(
             request.form[
@@ -462,11 +449,13 @@ def predict():
             ]
         )
 
+
         daily_notifications = int(
             request.form[
                 "daily_notifications"
             ]
         )
+
 
         minutes_to_first_check_after_waking = int(
             request.form[
@@ -474,11 +463,13 @@ def predict():
             ]
         )
 
+
         avg_sleep_hours = float(
             request.form[
                 "avg_sleep_hours"
             ]
         )
+
 
         anxiety_score_0to27 = int(
             request.form[
@@ -486,11 +477,13 @@ def predict():
             ]
         )
 
+
         low_mood_score_0to27 = int(
             request.form[
                 "low_mood_score_0to27"
             ]
         )
+
 
         life_satisfaction_1to10 = int(
             request.form[
@@ -498,11 +491,13 @@ def predict():
             ]
         )
 
+
         loneliness_1to10 = int(
             request.form[
                 "loneliness_1to10"
             ]
         )
+
 
         self_esteem_1to10 = int(
             request.form[
@@ -510,17 +505,20 @@ def predict():
             ]
         )
 
+
         fomo_1to10 = int(
             request.form[
                 "fomo_1to10"
             ]
         )
 
+
         social_comparison_1to10 = int(
             request.form[
                 "social_comparison_1to10"
             ]
         )
+
 
         physical_activity_days_per_week = int(
             request.form[
@@ -537,33 +535,41 @@ def predict():
             "gender"
         ]
 
+
         occupation = request.form[
             "occupation"
         ]
+
 
         region = request.form[
             "region"
         ]
 
+
         most_used_platform = request.form[
             "most_used_platform"
         ]
+
 
         night_time_use = request.form[
             "night_time_use"
         ]
 
+
         primary_purpose = request.form[
             "primary_purpose"
         ]
+
 
         uses_screen_time_limits = request.form[
             "uses_screen_time_limits"
         ]
 
+
         attempted_digital_detox = request.form[
             "attempted_digital_detox"
         ]
+
 
         seeks_mental_health_support = request.form[
             "seeks_mental_health_support"
